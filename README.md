@@ -1,6 +1,6 @@
 # LooseOneServer
 
-Custom server implementation for a Minecraft client (similar to Lunar Client).  
+Custom server implementation for a Minecraft client.  
 This repository contains the server-side part only.
 
 ## Build
