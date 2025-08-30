@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Админ-панель</title>
+  <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        color: #ffffff;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        background: #1c1f26;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    }
+    h2, h3 {
+        color: #50bfff;
+    }
+    .auth-section, .edit-section, .stats, .search {
+        background: #2a2e38;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    input, select, button {
+        padding: 10px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        outline: none;
+    }
+    input, select {
+        background-color: #1e222b;
+        color: #ffffff;
+        border: 1px solid #3a3f4b;
+    }
+    button {
+        background-color: #50bfff;
+        color: white;
+        transition: background 0.3s ease;
+    }
+    button:hover {
+        background-color: #42a8e3;
+    }
+    .user-card {
+        background: #2b2f3a;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 4px solid #50bfff;
+        border-radius: 5px;
+    }
+    .subscription-item {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    .subscription-item input {
+        flex: 1;
+    }
+    .error {
+        color: #ff6b6b;
+        font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="auth-section" id="authSection">
+    <h2>Вход в админ-панель</h2>
+    <input type="password" id="adminKey" placeholder="Введите ключ админа">
+    <button onclick="handleAdminAuth()">Войти</button>
+    <div id="authError" class="error"></div>
+  </div>
+
+  <div id="adminPanel" style="display: none;">
+    <h2>Админ-панель</h2>
+    <div class="stats">
+      <p>Всего пользователей: <span id="usersCount">0</span></p>
+    </div>
+
+    <div class="search">
+      <input type="text" id="searchInput" placeholder="Поиск по логину">
+      <button onclick="searchUsers()">Поиск</button>
+    </div>
+
+    <div class="user-list" id="userList">
+    </div>
+
+    <div class="edit-section" id="editSection" style="display: none;">
+      <h3>Редактирование пользователя</h3>
+      <input type="hidden" id="editLogin">
+      <div>
+        <label>HWID:</label>
+        <input type="text" id="editHwid">
+      </div>
+      <div>
+        <label>Группа:</label>
+        <select id="editGroup">
+          <option value="User">User</option>
+          <option value="Media">Media</option>
+          <option value="Admin">Admin</option>
+          <option value="Developer">Developer</option>
+        </select>
+      </div>
+      <div>
+        <label>Подписки:</label>
+        <div id="subscriptionsList"></div>
+        <button onclick="addSubscription()">+ Добавить подписку</button>
+      </div>
+      <button onclick="saveUser()">Сохранить</button>
+      <div id="editError" class="error"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let adminSession = null;
+  let currentUser = null;
+  const subscriptionsCache = {};
+
+  async function handleAdminAuth() {
+    const key = document.getElementById('adminKey').value;
+    document.getElementById('authError').textContent = '';
+
+    try {
+      const response = await fetch('/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        adminSession = data.session;
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        loadUsers();
+      } else {
+        document.getElementById('authError').textContent = data.error || 'Неверный ключ админа';
+      }
+    } catch (error) {
+      document.getElementById('authError').textContent = 'Ошибка соединения';
+      console.error('Auth error:', error);
+    }
+  }
+
+  async function loadUsers() {
+    try {
+      const response = await fetch('/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session: adminSession })
+      });
+
+      const data = await response.json();
+if (data.users) {
+  renderUserList(data.users);
+  document.getElementById('editSection').style.display = 'none';
+  document.getElementById('usersCount').textContent = data.users.length;
+}
+    } catch (error) {
+      console.error('Load users error:', error);
+    }
+  }
+
+  function renderUserList(users) {
+    const userList = document.getElementById('userList');
+    userList.innerHTML = '';
+
+    users.forEach(user => {
+      const userCard = document.createElement('div');
+      userCard.className = 'user-card';
+      userCard.innerHTML = `
+        <p><strong>Логин:</strong> ${user.login}</p>
+        <p><strong>Группа:</strong> ${user.group || 'Не указана'}</p>
+        <p><strong>HWID:</strong> ${user.hwid || 'Не указан'}</p>
+        <button onclick="editUser('${user.login}')">Редактировать</button>
+      `;
+      userList.appendChild(userCard);
+    });
+  }
+
+  async function editUser(login) {
+    try {
+      const response = await fetch('/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session: adminSession })
+      });
+
+      const data = await response.json();
+      const user = data.users.find(u => u.login === login);
+
+      if (user) {
+        currentUser = user;
+        document.getElementById('editLogin').value = user.login;
+        document.getElementById('editHwid').value = user.hwid || '';
+        document.getElementById('editGroup').value = user.group || 'User';
+
+        if (!subscriptionsCache[login]) {
+  subscriptionsCache[login] = user.subscriptions || {};
+}
+        renderSubscriptions(login);
+
+        document.getElementById('editSection').style.display = 'block';
+      }
+    } catch (error) {
+      console.error('Edit user error:', error);
+    }
+  }
+
+  function renderSubscriptions(login) {
+    const subsContainer = document.getElementById('subscriptionsList');
+    subsContainer.innerHTML = '';
+
+    const subscriptions = subscriptionsCache[login];
+
+    if (!subscriptions || Object.keys(subscriptions).length === 0) {
+      subsContainer.innerHTML = '<p>Нет активных подписок</p>';
+      return;
+    }
+
+    for (const [name, date] of Object.entries(subscriptions)) {
+      const subItem = document.createElement('div');
+      subItem.className = 'subscription-item';
+      subItem.innerHTML = `
+        <input type="text" value="${name}" onchange="updateSubName('${login}', '${name}', this.value)">
+        <input type="date" value="${date === 'Навсегда' ? '' : date}"
+            onchange="updateSubDate('${login}', '${name}', this.value)">
+        <button onclick="removeSubscription('${login}', '${name}')">×</button>
+      `;
+      subsContainer.appendChild(subItem);
+    }
+  }
+
+  function addSubscription() {
+    const login = document.getElementById('editLogin').value;
+    if (!subscriptionsCache[login]) subscriptionsCache[login] = {};
+
+    const newName = `Новая_подписка_${Object.keys(subscriptionsCache[login]).length + 1}`;
+    subscriptionsCache[login][newName] = new Date().toISOString().split('T')[0];
+
+    renderSubscriptions(login);
+  }
+
+  function updateSubName(login, oldName, newName) {
+    if (subscriptionsCache[login] && subscriptionsCache[login][oldName]) {
+      const value = subscriptionsCache[login][oldName];
+      delete subscriptionsCache[login][oldName];
+      subscriptionsCache[login][newName] = value;
+    }
+  }
+
+  function updateSubDate(login, name, date) {
+    if (subscriptionsCache[login]) {
+      subscriptionsCache[login][name] = date || 'Навсегда';
+    }
+  }
+
+  function removeSubscription(login, name) {
+    if (subscriptionsCache[login] && subscriptionsCache[login][name]) {
+      delete subscriptionsCache[login][name];
+      renderSubscriptions(login);
+    }
+  }
+
+  async function saveUser() {
+    const login = document.getElementById('editLogin').value;
+readSubscriptionsFromDOM(login);
+const updates = {
+  hwid: document.getElementById('editHwid').value,
+  group: document.getElementById('editGroup').value,
+  subscriptions: subscriptionsCache[login] || {}
+};
+
+    try {
+      const response = await fetch('/admin/update_user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session: adminSession,
+          login,
+          updates
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert('Изменения сохранены');
+        loadUsers();
+      } else {
+        document.getElementById('editError').textContent = data.error || 'Ошибка сохранения';
+      }
+    } catch (error) {
+      document.getElementById('editError').textContent = 'Ошибка соединения';
+      console.error('Save error:', error);
+    }
+  }
+
+  async function searchUsers() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    try {
+      const response = await fetch('/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session: adminSession })
+      });
+
+      const data = await response.json();
+      if (data.users) {
+        const filtered = data.users.filter(user =>
+          user.login.toLowerCase().includes(query)
+        );
+        renderUserList(filtered);
+      }
+    } catch (error) {
+      console.error('Search error:', error);
+    }
+  }
+
+  function readSubscriptionsFromDOM(login) {
+  const subsContainer = document.getElementById('subscriptionsList');
+  const subs = {};
+
+  const items = subsContainer.querySelectorAll('.subscription-item');
+  items.forEach(item => {
+    const nameInput = item.querySelector('input[type="text"]');
+    const dateInput = item.querySelector('input[type="date"]');
+
+    const name = nameInput.value.trim();
+    const date = dateInput.value || 'Навсегда';
+
+    if (name) {
+      subs[name] = date;
+    }
+  });
+
+  subscriptionsCache[login] = subs;
+}
+</script>
+
+</body>
+</html>

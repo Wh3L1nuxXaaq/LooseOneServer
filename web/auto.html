@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Активировать</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button, .link-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        button:hover, .link-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+    <script>
+        async function activateKey() {
+            const key = document.getElementById("key").value;
+            const hwid = document.getElementById("hwid").value;
+            const username = document.getElementById("username").value;
+
+            if (!key || !hwid || !username) {
+                alert("Please fill in all fields");
+                return;
+            }
+
+            const response = await fetch("https://looseone.fun/activate_key", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ key, hwid, username })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert(`Success! UID: ${result.uid}, Subscription: ${result.subscription} По всем вопросам писать в тикеты`);
+	window.open("", "_blank");
+            } else {
+                alert(`Error: ${result.error}`);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Активировать</h2>
+        <input type="text" id="key" placeholder="Введите ключ"><br>
+        <input type="text" id="hwid" placeholder="Введите хвид"><br>
+        <input type="text" id="username" placeholder="Введите юзернейм"><br>
+        <button onclick="activateKey()">Активировать</button>
+        <br>
+        <a href="" class="link-btn" target="_blank">Получить хвид</a>
+        <a href="" class="link-btn" target="_blank">Купить подписку</a>
+    </div>
+</body>
+</html>
+

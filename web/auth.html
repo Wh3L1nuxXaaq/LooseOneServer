@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LooseOne - Авторизация</title>
+    <link href="/static/boxicons%402.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #007acc;
+            --primary-dark: #005a99;
+            --background: #0b0e14;
+            --card-bg: #10141a;
+            --text: #dce3ec;
+            --text-secondary: #8a8f9c;
+            --accent: #005eff;
+            --accent-hover: #0044bb;
+            --success: #2ecc71;
+            --error: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 30% 30%, rgba(0, 122, 204, 0.1) 0%, transparent 50%),
+                linear-gradient(rgba(0, 122, 204, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 122, 204, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px, 20px 20px;
+            padding: 20px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 122, 204, 0.2);
+            animation: fadeIn 0.5s forwards ease;
+            opacity: 0;
+            transform: translateY(20px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .tabs button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .tabs button.active {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        form {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        form.active {
+            display: flex;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 122, 204, 0.3);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 15px;
+            letter-spacing: 1px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .submit-btn {
+            background: rgba(0, 122, 204, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+
+        .submit-btn:hover {
+            background: rgba(0, 122, 204, 0.2);
+            box-shadow: 0 0 10px rgba(0, 122, 204, 0.3);
+        }
+
+        .submit-btn .hacker-text {
+            display: none;
+            animation: glitch 0.5s;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .success {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .error {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        .forgot-link {
+            text-align: center;
+        }
+
+        .forgot-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-link a:hover {
+            text-decoration: underline;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo span {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent);
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .logo span::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 #00f, -2px 0 #0ff; }
+            100% { text-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="tabs">
+            <button class="tab-link active" onclick="switchTab('login')">Авторизация</button>
+            <button class="tab-link" onclick="switchTab('register')">Регистрация</button>
+        </div>
+
+        <div class="form-container">
+            <div class="logo">
+                <span id="logo-text">LooseOne</span>
+            </div>
+
+            <form id="login-form" class="active" onsubmit="return handleAuth(event, 'login')">
+                <div class="input-group">
+                    <input type="text" id="login-username" placeholder="Введите логин" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="login-password" placeholder="Введите пароль" required>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <span class="normal-text">Войти</span>
+                    <span class="hacker-text">3452351</span>
+                </button>
+                <div class="message" id="login-msg"></div>
+            </form>
+
+            <form id="register-form" onsubmit="return handleAuth(event, 'register')">
+                <div class="input-group">
+                    <input type="text" id="register-username" placeholder="Придумайте логин" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="register-password" placeholder="Придумайте пароль" required>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <span class="normal-text">Регистрация</span>
+                    <span class="hacker-text">9182736</span>
+                </button>
+                <div class="message" id="register-msg"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function getRandomDigits(length = 6) {
+            let digits = '';
+            for (let i = 0; i < length; i++) {
+                digits += Math.floor(Math.random() * 10);
+            }
+            return digits;
+        }
+    
+        function startDigitAnimation(target, finalText, duration = 500) {
+            const intervalSpeed = 50;
+            let elapsed = 0;
+            const interval = setInterval(() => {
+                target.textContent = getRandomDigits(finalText.length);
+                elapsed += intervalSpeed;
+                if (elapsed >= duration) {
+                    clearInterval(interval);
+                    target.textContent = finalText;
+                }
+            }, intervalSpeed);
+        }
+        function switchTab(tabName) {
+            document.querySelectorAll('form').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.querySelectorAll('.tabs button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-form`).classList.add('active');
+            document.querySelector(`.tabs button[onclick*="${tabName}"]`).classList.add('active');
+        }
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.submit-btn').forEach(btn => {
+                const hackerText = btn.querySelector('.hacker-text');
+                const normalText = btn.querySelector('.normal-text');
+    
+                btn.addEventListener('mouseenter', () => {
+                    normalText.style.display = 'none';
+                    hackerText.style.display = 'inline';
+                    startDigitAnimation(hackerText, normalText.textContent);
+    
+                    setTimeout(() => {
+                        hackerText.style.display = 'none';
+                        normalText.style.display = 'inline';
+                    }, 500);
+                });
+            });
+    
+            const logo = document.getElementById('logo-text');
+            const originalLogo = logo.textContent;
+    
+            startDigitAnimation(logo, originalLogo, 700);
+            
+            switchTab('login');
+        });
+    
+async function handleAuth(event, type) {
+    event.preventDefault();
+
+    const login = document.getElementById(`${type}-username`).value;
+    const password = document.getElementById(`${type}-password`).value;
+
+    try {
+        const res = await fetch(type === 'login' ? "/auth_usr" : "/register_usr", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ login, password })
+        });
+
+        const data = await res.json();
+        console.log("Ответ сервера:", data);
+
+        const msgElem = document.getElementById(`${type}-msg`);
+if (data.success) {
+    localStorage.setItem("looseone_login", data.login);
+    localStorage.setItem("looseone_password", password);
+    window.location.href = "cabinet.html";
+} else {
+    msgElem.textContent = data.error || "Ошибка входа";
+}
+    } catch (err) {
+        console.error("Ошибка запроса:", err);
+        alert("Ошибка подключения к серверу");
+    }
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,688 @@
+﻿@import url('../css2');
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    list-style: none;
+    scroll-behavior: smooth;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    font-size: 10px; }
+    @media (max-width: 992px) {
+      html {
+        font-size: 9px; } }
+    @media (max-width: 768px) {
+      html {
+        font-size: 7px; } }
+  
+
+body {
+    font-family: "Inter", sans-serif;
+}
+
+header {
+    width: 100%;
+    top: 0;
+    right: 0;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 15%;
+    left: 0;
+    transition: 0.25s ease-in-out;
+    z-index: 113;
+} 
+
+header.sticky {
+    background: #ffffffb5;
+    box-shadow: 0 0 20px #00000018;
+    backdrop-filter: blur(8px);
+}
+
+header .logotype {
+    font-size: 19px;
+    font-weight: 600;
+    color: #2b3a48;
+    transition: 0.25s ease-in-out;
+}
+
+header .logotype:hover {
+    color: #078ad6;
+}
+
+header .links {
+    display: flex;
+}
+
+header .links a {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2b3a48;
+    margin: 0 22px;
+    transition: 0.25s ease-in-out;
+}
+
+header .links a:hover {
+    color: #078ad6;
+}
+
+header .links .bx {
+    display: none;
+}
+
+header .menu-icon {
+    display: none;
+}
+
+
+#main {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    padding: 100px 15%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: left;
+    background: url('../img/testbg.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    animation: fadeIn 1s ease-in-out;
+}
+
+#main .container .main-text {
+    font-weight: 800;
+    font-size: 56px;
+    color: #2b3a48;
+    line-height: 100%;
+}
+
+#main .container .desc-text {
+    font-size: 18px;
+    color: #000000;
+    margin-top: 15px;
+}
+
+#main .container .buttons-action {
+    margin-top: 30px;
+}
+
+#main .container .buttons-action .btn {
+    margin-right: 12px;
+    padding: 11px 19px;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.15s ease-in-out;
+}
+
+#main .container .buttons-action .install {
+    box-shadow: 0 2px 10px #00000032;
+    background: #078ad6;
+}
+
+#main .container .buttons-action .faq {
+    color: #078ad6;
+    background: #dfe8f6;
+}
+
+#main .container .buttons-action .install:hover {
+    background: #0c6cba;
+}
+
+#main .container .buttons-action .faq:hover {
+    box-shadow: 0 2px 10px #00000032;
+    background: #078ad6;
+    color: #ffffff;
+}
+
+#main .gui-img {
+    width: 850px;
+    position: absolute;
+    right: 7%;
+    top: 16%;
+}
+
+#statistic {
+    position: relative;
+    text-align: left;
+    padding: 30px 18%;
+    background: radial-gradient(100em at bottom left, #078ad61b, #ffffff00, #ffffff00);
+    z-index: 1;
+}
+
+#statistic .grad {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: radial-gradient(100em at top right, #078ad61b, #ffffff00, #ffffff00);
+    z-index: 2; 
+}
+#statistic h1 {
+    color: #2b3a48;
+    text-align: center;
+    font-size: 33px;
+    margin-bottom: 40px;
+    margin-top: 10px;
+}
+
+#statistic .container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#statistic .container .stat-box {
+    min-width: 382px;
+    display: flex;
+    position: relative;
+    padding: 20px 30px 20px 25px;
+    border-radius: 13px;
+    background: #EAF6FC;
+    transition: all 0.14s ease-in-out;
+    box-shadow: 0 3px 0px #cedce3;
+    cursor: default;
+    user-select: none;
+    margin-bottom: 20px;
+    z-index: 6;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#statistic .container .stat-box:hover {
+    background: #e1f2fb;
+}
+
+#join-us .container .con-box img {
+    vertical-align: middle;
+}
+
+#statistic .container .stat-box .title {
+    color: #2b3a48;
+    margin-bottom: 3px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+#statistic .container .stat-box .counts {
+    font-size: 17px;
+    font-weight: 600;
+    color: #2b3a48;
+}
+
+#gui-case {
+    padding: 30px 0 0;
+}
+
+#gui-case h1{
+    color: #2b3a48;
+    text-align: center;
+    font-size: 33px;
+    margin-top: 28px;
+}
+
+#gui-case .gui-img img {
+    width: 100%;
+    max-width: 100%; 
+    max-height: 100%; 
+    z-index: 7;
+}
+
+#showcase {
+    position: relative;
+    width: 100%;
+    padding: 45px 0 120px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    z-index: 4;
+}
+
+#showcase .videos iframe {
+    position: absolute;
+    right: 0%;
+    top: 1%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00000068;
+}
+
+#showcase h1 {
+    color: #2b3a48;
+    font-size: 45px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+#showcase p {
+    color: #2b3a48;
+    font-size: 17px;
+    line-height: 1.40;
+    margin-bottom: 31px;
+    font-weight: 500;
+}
+
+#showcase .video-container a {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    padding: 10px 14px;
+    background: #078ad6;
+    border-radius: 6px;
+    transition: 0.3s ease;
+    box-shadow: 0 2px 20px #0000003a;
+    cursor: pointer;
+}
+
+#showcase .video-container a:hover {
+    background: #0c6cba;
+}
+
+#inst-client {
+    position: relative;
+    text-align: center;
+    z-index: 7;
+    padding: 50px 0 100px;
+}
+
+#inst-client .inst-text {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+#inst-client .inst-text .title {
+    color: #2b3a48;
+    font-size: 45px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+#inst-client .inst-text .desc {
+    font-weight: 500;
+    color: #2b3a48;
+    font-size: 17px;
+    line-height: 1.40;
+    margin-bottom: 24px;
+}
+
+#inst-client .inst-text .install {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    padding: 8px 12px;
+    background: #078ad6;
+    border-radius: 6px;
+    transition: 0.3s ease;
+    box-shadow: 0 2px 20px #0000003a;
+}
+#inst-client .inst-text .install:hover {
+    background: #0c6cba;
+}
+
+#inst-client .inst-text .install span {
+    vertical-align: middle;
+}
+
+#footer {
+    background: rgb(228, 236, 242, 0.4);
+    color: #2b3a48;
+    padding: 20px 15%;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#footer .footer-right a {
+    color: #2b3a48;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+#footer .footer-left {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#main .container {
+    animation: slideIn 0.2s ease forwards;
+}
+
+#main .container .main-text,
+#main .container .desc-text,
+#main .container .buttons-action {
+    opacity: 0;
+    animation: slideIn 0.6s ease forwards;
+    animation-delay: 0.25s;
+}
+
+#main .hero .gui-img {
+    opacity: 0;
+    animation: slideIn 0.6s ease forwards;
+    animation-delay: 0.45s;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#statistic .stat-box {
+    animation: slideIn 0.6s ease forwards;
+    opacity: 0;
+}
+
+#statistic .stat-box:nth-child(odd) {
+    animation-delay: 0.8s;
+}
+
+#statistic .stat-box:nth-child(even) {
+    animation-delay: 0.9s;
+}
+
+#statistic h1 {
+    animation: slideIn 0.6s ease forwards;
+    opacity: 0;
+    animation-delay: 0.65s;
+}
+
+#gui-case {
+    opacity: 0;
+    transform: translateY(50px); 
+    transition: opacity 0.7s, transform 0.7s; 
+}
+
+#gui-case.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+#showcase {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+#showcase.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#inst-client {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+#inst-client.show {
+    opacity: 1;
+    transform: translateY(0); 
+}
+#inst-client .inst-button {
+    font-size: 16px; 
+    font-weight: 600; 
+    color: #2b3a48;
+}
+
+#inst-client .inst-faq {
+    padding-left: 10px; 
+    font-size: 16px; 
+    color: #2b3a48; 
+    font-weight: 600; 
+    transition: .15s ease-in-out;
+}
+
+#inst-client .version, 
+#inst-client .secondVer {
+    transition: .15s ease-in-out;
+    color: #2b3a48;
+}
+
+#inst-client .version:hover, 
+#inst-client .secondVer:hover,
+#inst-client .inst-faq:hover {
+    color: #078ad6;
+}
+
+
+/* Animation end. */
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #078ad6;
+    border-radius: 20px;
+}
+
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+
+@media screen and (max-width: 1500px) {
+
+    #main,
+    #statistic,
+    #showcase,
+    #gui-case {
+        padding: 40px 40px;
+    }
+    #statistic .container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    header {
+        padding: 20px 40px;
+    }
+
+    #main .gui-img {
+        right: 0%;
+    }
+    
+}
+
+@media screen and (max-width: 1300px) {
+    #main .container .main-text {
+        font-size: 49px;
+    }
+    #main .container .desc-text {
+        font-size: 16px;
+    }
+    #main .gui-img {
+        width: 730px;
+        top: 20%;
+    }
+}
+
+@media screen and (max-width: 1225px) {
+    #statistic .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+        width: 100%;
+    }
+    #showcase iframe {
+        width: 480px;
+        height: 270px;
+    }
+    #showcase {
+        padding: 30px 20px;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    #main .gui-img {
+        width: 610px;
+        top: 25%;
+    }
+    #showcase iframe {
+        width: 420px;
+        height: 230px;
+    }
+}   
+
+@media screen and (max-width: 1020px) {
+    #showcase .text-content p {
+        font-size: 15px;
+    }
+    #showcase iframe {
+        display: none;
+    }
+    #showcase {
+        padding: 20px 0;
+        justify-content: center;
+    }
+    #showcase .text-content {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    #main .gui-img {
+        display: none;
+    }
+    #main .container .main-text {
+        font-size: 45px;
+    }
+    #main .container .desc-text {
+        font-size: 16px;
+    }
+    #statistic {
+        padding: 20px 20px;
+    }
+    #statistic h1 {
+        font-size: 30px;
+    }
+    #statistic .container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    #statistic .container .stat-box {
+        width: 100%;
+        margin: 2px 0;
+    }
+    #gui-case h1 {
+        font-size: 30px;
+    }
+    #gui-case .gui-img img {
+        width: 1800px;
+    }
+    #showcase .text-content h1 {
+        font-size: 38px;
+    }
+    #inst-client .inst-text .title {
+        font-size: 38px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #main .container .main-text {
+        line-height: 110%;
+        font-size: 40px;
+    }
+    #main .container .desc-text {
+        font-size: 15px;
+    }
+    header .logotype {
+        display: none;
+    }
+    header .links {
+        padding: 10px;
+        justify-content: center;
+        align-self: center;
+        align-items: center;
+        margin-left: 15px;
+    }
+
+    #showcase .text-content h1{
+        font-size: 35px;
+    }
+    
+
+    #inst-client .title{
+        font-size: 35px;
+    }
+    #inst-client .desc{
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 200px) {
+    #main .container .buttons-action .faq {
+        width: 130px;
+        margin-top: 20px;
+        display: block;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>FAQ | LooseOne</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+    <style>
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          background-color: #111;
+          color: #eee;
+          font-family: "Inter", "Segoe UI", sans-serif;
+          line-height: 1.6;
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+
+        header {
+          background-color: #0c0c0c;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          padding: 15px 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .logotype {
+          font-size: 20px;
+          font-weight: bold;
+          color: #3c91e6;
+        }
+
+        .links {
+          list-style: none;
+          display: flex;
+          gap: 25px;
+        }
+
+        .links li a {
+          font-size: 15px;
+          color: #ccc;
+          transition: color 0.2s;
+        }
+
+        .links li a:hover {
+          color: #3c91e6;
+        }
+
+        h1 {
+          text-align: center;
+          color: #3c91e6;
+          margin: 40px 0 20px;
+        }
+
+        .faq-container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 0 20px 40px;
+          flex: 1;
+        }
+
+        .faq-item {
+          background-color: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 12px;
+          margin-bottom: 15px;
+          overflow: hidden;
+          transition: border-color 0.3s;
+        }
+
+        .faq-item:hover {
+          border-color: #3c91e6;
+        }
+
+        .faq-question {
+          padding: 18px 20px;
+          cursor: pointer;
+          font-size: 18px;
+          color: #3c91e6;
+          position: relative;
+        }
+
+        .faq-question::after {
+          content: '+';
+          position: absolute;
+          right: 20px;
+          font-size: 20px;
+          transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+          transform: rotate(45deg);
+        }
+
+        .faq-answer {
+          max-height: 0;
+          overflow: hidden;
+          padding: 0 20px;
+          font-size: 16px;
+          color: #ccc;
+          transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+          max-height: 200px;
+          padding: 10px 20px 20px;
+        }
+
+        #footer {
+          background-color: #0c0c0c;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          padding: 20px 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: #888;
+          font-size: 14px;
+        }
+
+        #footer a {
+          color: #3c91e6;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+        }
+
+        #footer a i {
+          margin-right: 6px;
+          font-size: 18px;
+        }
+
+        @media (max-width: 700px) {
+          .links {
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+          }
+
+          header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+          }
+
+          #footer {
+            flex-direction: column;
+            text-align: center;
+            gap: 10px;
+          }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logotype">LooseOne</a>
+    <ul class="links">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="auth.html">Личный Кабинет</a></li>
+        <li><a target="_blank" href="https://discord.gg/MmA2pr6hSj">Дискорд</a></li>
+    </ul>
+</header>
+
+<h1>Часто задаваемые вопросы</h1>
+<div class="faq-container">
+    <div class="faq-item">
+        <div class="faq-question">Как запустить клиент?</div>
+        <div class="faq-answer">Сначала скачайте лоадер с нашего сайта. Запустите его и авторизуйтесь. Затем выберите версию RustEx.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-question">Клиент платный?</div>
+        <div class="faq-answer">Да, доступ платный. Вы можете выбрать тарифный план в личном кабинете. Бесплатной версии нет.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-question">Есть ли инструкция?</div>
+        <div class="faq-answer">Нет, на данный момент инструкции нету в будущем появится.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-question">Есть ли поддержка Windows 11?</div>
+        <div class="faq-answer">Да, наш клиент полностью совместим с Windows 10 и 11.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-question">Как связаться с поддержкой?</div>
+        <div class="faq-answer">Вы можете создать тикет в нашем Discord-сервере.</div>
+    </div>
+</div>
+
+<section id="footer">
+    <div class="footer-left">LooseOne © 2025</div>
+    <div class="footer-right">
+        <a target="_blank" href="https://discord.gg/MmA2pr6hSj">
+            <i class='bx bxl-discord-alt'></i> Наш Discord
+        </a>
+    </div>
+</section>
+
+<script>
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+</script>
+
+</body>
+</html>
